@@ -1,20 +1,23 @@
 import mongoose from 'mongoose'
+import dotenv from 'dotenv'
 
-console.log(process.env.MONGODB_URI)
+dotenv.config()
 
-const DB = process.env.MONGODB_URI.replace('<PASSWORD>', process.env.PASSWORD)
+const DB = process.env.MONGODB_URI.replace(
+  '<PASSWORD>',
+  process.env.MONGODB_PASSWORD
+)
+
 const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(DB, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-      useCreateIndex: true,
-    })
-    console.log(`Database connected successfully on ${conn.connection.host}`)
-  } catch (error) {
-    console.log(error)
-  }
+  const conn = await mongoose.connect(DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+  })
+  console.log(
+    `Database connected successfully on ${conn.connection.host}`.cyan.underline
+  )
 }
 
-// export default connectDB
+export default connectDB
